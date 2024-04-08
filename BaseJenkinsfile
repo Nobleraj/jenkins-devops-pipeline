@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build base image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    docker.build('baseimage:v1')
+                }
+            }
+        }
+    }
+}
