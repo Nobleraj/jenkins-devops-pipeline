@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build('my-app:v1')
+                    docker.build('my-app:v1', '-f Dockerfile .')
                 }
             }
         }
