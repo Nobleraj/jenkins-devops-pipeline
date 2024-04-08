@@ -15,8 +15,7 @@ pipeline {
                 }
             }
         }
-    }
-     stage('Push') {
+         stage('Push') {
             steps {
                 // Push Docker image to local registry
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-registry-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
@@ -25,4 +24,6 @@ pipeline {
                 }
             }
     }
+    }
+    
 }
