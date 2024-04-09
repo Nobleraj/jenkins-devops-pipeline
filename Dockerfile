@@ -4,7 +4,7 @@ FROM node:14-alpine
 # Set the working directory in the container
 WORKDIR /app
 
-FROM baseimage:v1 AS base
+FROM baseimage-${imageTag}:${imageVersion} AS base
 
 # Expose port 5000 to the outside world
 EXPOSE 3000
