@@ -5,7 +5,7 @@ pipeline {
            stage('Remove existing image') {
             steps {
                 script {
-                    def existingImage = docker.image('my-app:v1')
+                    def existingImage = docker.image("baseimage-${imageTag}:${imageVersion}")
                     if (existingImage.exists()) {
                         try {
                             existingImage.remove(force: true)
