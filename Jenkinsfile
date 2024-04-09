@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build("my-app:${namespace}:${version}", '--build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .')
+                    docker.build("my-app-${namespace}:${version}", '--build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .')
                 }
             }
         }
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    docker.image("my-app:${namespace}:${version}").run('-p 3000:3000 -d')
+                    docker.image("my-app-${namespace}:${version}").run('-p 3000:3000 -d')
                 }
             }
         }
