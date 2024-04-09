@@ -2,12 +2,20 @@ pipeline {
     agent any
 
     stages {
-         stage('Remove existing image') {
+           stage('Remove existing image') {
             steps {
                 script {
-                    def existingImage = docker.image("baseimage-${imageTag}:${imageVersion}")
+                    def existingImage = docker.image('my-app:v1')
                     if (existingImage.exists()) {
-                        existingImage.remove(force: true)
+                        try {
+                            existingImage.remove(force: true)
+                            println "Image removed successfully."
+                        } catch (Exception e) {
+                            println "Failed to remove image: ${e.message}"
+                            // Handle error accordingly
+                        }
+                    } else {
+                        println "Image does not exist. Skipping removal."
                     }
                 }
             }
