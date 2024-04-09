@@ -1,12 +1,12 @@
-# Use build arguments for image tag and version
-ARG imageTag
-ARG imageVersion
-
 # Use an official Node.js runtime as the base image
 FROM node:14-alpine
 
 # Set the working directory in the container
 WORKDIR /app
+
+# Use build arguments for image tag and version
+ARG imageTag
+ARG imageVersion
 
 FROM baseimage-${imageTag}:${imageVersion} AS base
 
