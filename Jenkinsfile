@@ -2,6 +2,16 @@ pipeline {
     agent any
 
     stages {
+        stage('Remove existing image') {
+            steps {
+                script {
+                    def existingImage = docker.image("my-app-${namespace}:${version}")
+                    if (existingImage.exists()) {
+                        existingImage.remove(force: true)
+                    }
+                }
+            }
+        }
         stage('Build image') {
             steps {
                 script {
