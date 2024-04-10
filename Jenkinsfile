@@ -10,13 +10,21 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+       stage('Generate and Apply Kubernetes Manifest') {
             steps {
                 script {
-                    // Run the Docker container
-                    docker.image("my-app-${namespace}:${version}").run('-p 3000:3000 -d')
+                    // Generate Kubernetes manifest files
+                    writeFile(file: 'deployment.yaml', text: generateDeploymentManifest())
+                    // Apply the Kubernetes manifest using kubectl
+                    sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
     }
+
+    def generateDeploymentManifest() {
+    def template = readFile('deployment-template.yaml')
+    return template.replaceAll('\\$\\{namespace\\}', "${namespace}")
+                   .replaceAll('\\$\\{version\\}', "${version}")
+}
 }
