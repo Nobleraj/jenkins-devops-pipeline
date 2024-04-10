@@ -10,21 +10,21 @@ pipeline {
                 }
             }
         }
-       stage('Generate and Apply Kubernetes Manifest') {
+        stage('Create deployment') {
             steps {
                 script {
-                    // Generate Kubernetes manifest files
-                    writeFile(file: 'deployment.yaml', text: generateDeploymentManifest())
-                    // Apply the Kubernetes manifest using kubectl
-                    sh 'kubectl apply -f deployment.yaml'
+                    // Run the Docker container
+                   sh "kubectl create deployment react-${namespace} --image=my-app-${namespace}:${version}"
+                }
+            }
+        }
+        stage('Expose deployment') {
+            steps {
+                script {
+                    // Run the Docker container
+                   sh "kubectl expose deployment react-${namespace} --type=LoadBalancer --port=3000"
                 }
             }
         }
     }
-
-    def generateDeploymentManifest() {
-    def template = readFile('deployment-template.yaml')
-    return template.replaceAll('\\$\\{namespace\\}', "${namespace}")
-                   .replaceAll('\\$\\{version\\}', "${version}")
-}
 }
