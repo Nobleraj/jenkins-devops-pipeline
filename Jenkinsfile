@@ -10,11 +10,19 @@ pipeline {
                 }
             }
         }
+        stage('Tag image') {
+            steps {
+                script {
+                    // Run the Docker container
+                   sh "docker tag my-app-${namespace}:${version} localhost:5000/my-app-${namespace}:${version}"
+                }
+            }
+        }
         stage('Create deployment') {
             steps {
                 script {
                     // Run the Docker container
-                   sh "kubectl create deployment react-${namespace} --image=my-app-${namespace}:${version}"
+                   sh "kubectl create deployment react-${namespace} --image=localhost:5000/my-app-${namespace}:${version}"
                 }
             }
         }
