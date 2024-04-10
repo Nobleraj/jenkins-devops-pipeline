@@ -10,29 +10,20 @@ pipeline {
                 }
             }
         }
-        stage('Tag image') {
+        stage('Generate and Apply Kubernetes Manifest') {
             steps {
                 script {
-                    // Run the Docker container
-                   sh "docker tag my-app-${namespace}:${version} localhost:5000/my-app-${namespace}:${version}"
-                }
-            }
-        }
-        stage('Create deployment') {
-            steps {
-                script {
-                    // Run the Docker container
-                   sh "kubectl create deployment react-${namespace} --image=localhost:5000/my-app-${namespace}:${version}"
-                }
-            }
-        }
-        stage('Expose deployment') {
-            steps {
-                script {
-                    // Run the Docker container
-                   sh "kubectl expose deployment react-${namespace} --type=LoadBalancer --port=3000"
+                    // Generate Kubernetes manifest files
+                    writeFile(file: 'deployment.yaml', text: generateDeploymentManifest())
+                    // Apply the Kubernetes manifest using kubectl
+                    sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
     }
+}
+def generateDeploymentManifest() {
+    def template = readFile('deployment-template.yaml')
+    return template.replaceAll('\\$\\{namespace\\}', "${namespace}")
+                   .replaceAll('\\$\\{version\\}', "${version}")
 }
