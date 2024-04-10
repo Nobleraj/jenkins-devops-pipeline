@@ -23,7 +23,7 @@ pipeline {
     }
 }
 def generateDeploymentManifest() {
-    def template = readFile('deployment-template.yaml')
+    def template = readFile('deployment.yaml')
     return template.replaceAll('\\$\\{namespace\\}', "${namespace}")
                    .replaceAll('\\$\\{version\\}', "${version}")
 }
