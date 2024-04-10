@@ -6,15 +6,15 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: myapp
+      app: myapp-react
   template:
     metadata:
       labels:
-        app: myapp
+        app: myapp-react
     spec:
       containers:
       - name: myapp-container
-        image: my-app-${namespace}:${version}
+        image: my-app-dev:v1
         ports:
         - containerPort: 3000
 
@@ -25,7 +25,7 @@ metadata:
   name: myapp-service
 spec:
   selector:
-    app: myapp
+    app: myapp-react
   ports:
     - protocol: TCP
       port: 80
