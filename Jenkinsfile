@@ -1,3 +1,4 @@
+def userName = 'princenoble/'
 pipeline {
     agent any
 
@@ -6,24 +7,17 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build("my-app-${namespace}:${version}", '--build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .')
+                    docker.build("${userName}my-app-${namespace}:${version}", '--build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .')
                 }
             }
         }
-        stage('Generate and Apply Kubernetes Manifest') {
+        stage('Deploy') {
             steps {
                 script {
-                    // Generate Kubernetes manifest files
-                    writeFile(file: 'deployment.yaml', text: generateDeploymentManifest())
-                    // Apply the Kubernetes manifest using kubectl
-                    sh 'kubectl apply -f deployment.yaml'
+                    // Run the Docker container
+                    docker.image("${userName}my-app-${namespace}:${version}").run('-p 3000:3000 -d')
                 }
             }
         }
     }
-}
-def generateDeploymentManifest() {
-    def template = readFile('deployment.yaml')
-    return template.replaceAll('\\$\\{namespace\\}', "${namespace}")
-                   .replaceAll('\\$\\{version\\}', "${version}")
 }
