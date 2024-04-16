@@ -1,6 +1,6 @@
 # Use build arguments for image tag and version
-ARG imageTag
-ARG imageVersion
+ARG imageTag=dev
+ARG imageVersion=1.0
 
 # Use an official Node.js runtime as the base image
 FROM node:14-alpine
