@@ -9,7 +9,7 @@ FROM node:14-alpine
 WORKDIR /app
 
 
-FROM baseimage-${imageTag}:${imageVersion} AS base
+FROM princenoble/baseimage-${imageTag}:${imageVersion} AS base
 
 # Expose port 5000 to the outside world
 EXPOSE 3000
