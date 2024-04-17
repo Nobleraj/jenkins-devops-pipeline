@@ -1,4 +1,5 @@
-def userName = 'princenoble/'
+def userName = 'princenoble'
+def appName = 'ui'
 pipeline {
     agent any
 
@@ -7,7 +8,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build("${userName}my-app-${namespace}:${version}", '--build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .')
+                    docker.build("${userName}/${appName}-${namespace}:${version}", '--build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .')
                 }
             }
         }
@@ -15,7 +16,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    docker.image("${userName}my-app-${namespace}:${version}").run('-p 3000:3000 -d')
+                    docker.image("${userName}/${appName}-${namespace}:${version}").run('-p 3000:3000 -d')
                 }
             }
         }
