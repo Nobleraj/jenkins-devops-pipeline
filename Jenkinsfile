@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub
-                    docker.withRegistry(DOCKER_URL, credentials('docker-hubs')) {
+                    docker.withRegistry(DOCKER_URL, credentials('dockerhub')) {
                         docker.image(DOCKER_IMAGE_NAME).push()
                     }
                 }
