@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    "sh kubectl create deployment ${APP_NAME} --image=${DOCKER_IMAGE_NAME}"
+                    sh "kubectl create deployment ${APP_NAME} --image=${DOCKER_IMAGE_NAME}"
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                   "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port=3000"
+                   sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port=3000"
                 }
             }
         }
