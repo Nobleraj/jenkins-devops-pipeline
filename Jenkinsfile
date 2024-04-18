@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                     docker.build(DOCKER_IMAGE_NAME, "--platform linux/amd64,linux/arm64 --build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .")
+                     docker.build(DOCKER_IMAGE_NAME, "--platform linux/amd64 --build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .")
                 }
             }
         }
