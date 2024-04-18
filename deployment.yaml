@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app
+  name: my-react-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-app
+      app: my-react-app
   template:
     metadata:
       labels:
-        app: my-app
+        app: my-react-app
     spec:
       containers:
-      - name: myapp-container
+      - name: my-react-app-container
         image: "${DOCKER_IMAGE_NAME}"
         ports:
         - containerPort: 3000
@@ -22,10 +22,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app-service
+  name: my-react-app-service
 spec:
   selector:
-    app: my-app
+    app: my-react-app
   ports:
     - protocol: TCP
       port: 80
