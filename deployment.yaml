@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-react
+  name: m-react
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-react
+      app: m-react
   template:
     metadata:
       labels:
-        app: my-react
+        app: m-react
     spec:
       containers:
       - name: myapp-container
-        image: princenoble/ui-dev:latest
+        image: princenoble/ui-dev:1.0
         ports:
         - containerPort: 3000
 
@@ -22,10 +22,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-service
+  name: m-service
 spec:
   selector:
-    app: my-react
+    app: m-react
   ports:
     - protocol: TCP
       port: 80
