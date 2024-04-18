@@ -22,7 +22,7 @@ pipeline {
                     // Push the Docker image to Docker Hub
                     
                     withDockerServer([credentialsId: 'princenoble']) {
-                        withDockerRegistry([url: 'https://index.docker.io/v1/', credentialsId: 'princenoble']) {
+                        withDockerRegistry([url: DOCKER_URL, credentialsId: 'princenoble']) {
                             sh "docker --log-level=debug push ${DOCKER_IMAGE_NAME}"
                         }
                     }
