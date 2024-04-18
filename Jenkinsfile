@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    docker.image("${userName}/${appName}-${namespace}:${version}").run('-p 3000:3000 -d')
+                     sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
