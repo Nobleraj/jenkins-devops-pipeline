@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                   "sh docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_IMAGE_NAME} -f BaseDockerfile ."
+                   docker.buildx(buildKit: true, tags: DOCKER_IMAGE_NAME, extraArgs: '--platform linux/amd64,linux/arm64 -f BaseDockerfile .')
                 }
             }
         }
