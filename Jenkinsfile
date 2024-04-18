@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE_NAME = "${userName}/${appName}-${namespace}:${version}"
-        DOCKER_URL = "https://index.docker.io/v1/"
+        DOCKER_URL = "https://hub.docker.com"
         APP_NAME = "my-app"
     }
     stages {
@@ -20,9 +20,11 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub
-
-                    docker.withRegistry(DOCKER_URL, credentials('dockerhub')) {
-                        docker.image(DOCKER_IMAGE_NAME).push()
+                    
+                    withDockerServer([credentialsId: 'dockerhub']) {
+                        withDockerRegistry([url: 'https://index.docker.io/v1/', credentialsId: 'dockerhub']) {
+                            docker.image(DOCKER_IMAGE_NAME).push()
+                        }
                     }
                 }
             }
