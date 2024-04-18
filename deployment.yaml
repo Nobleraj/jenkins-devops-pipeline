@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myapp-container
-        image: princenoble/ui-dev
+        image: princenoble/ui-dev:latest
         ports:
         - containerPort: 3000
 
