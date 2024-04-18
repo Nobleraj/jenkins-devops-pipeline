@@ -26,11 +26,19 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to  GKS cluster') {
+        stage('Create GKS deployment') {
             steps {
                 script {
                     // Run the Docker container
-                    sh "kubectl apply -f deployment.yaml"
+                    sh "kubectl create deployment ${APP_NAME} --image=${DOCKER_IMAGE_NAME}"
+                }
+            }
+        }
+        stage('Expose GKS deployment') {
+            steps {
+                script {
+                    // Run the Docker container
+                   sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port=3000"
                 }
             }
         }
