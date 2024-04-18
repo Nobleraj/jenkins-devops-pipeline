@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-react-app
+  name: react-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-react-app
+      app: react-app
   template:
     metadata:
       labels:
-        app: my-react-app
+        app: react-app
     spec:
       containers:
-      - name: my-react-app-container
-        image: "princenoble/ui-dev:1.0"
+      - name: react-app-container
+        image: "${DOCKER_IMAGE_NAME}"
         ports:
         - containerPort: 3000
 
@@ -22,10 +22,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-react-app-service
+  name: react-app-service
 spec:
   selector:
-    app: my-react-app
+    app: react-app
   ports:
     - protocol: TCP
       port: 80
