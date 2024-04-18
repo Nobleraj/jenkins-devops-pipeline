@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    sh "kubectl apply -f deployment.yaml"
+                    sh "envsubst < deployment.yaml | kubectl apply -f -"
                 }
             }
         }
