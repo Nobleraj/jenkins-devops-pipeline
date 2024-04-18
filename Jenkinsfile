@@ -2,21 +2,43 @@ def userName = 'princenoble'
 def appName = 'ui'
 pipeline {
     agent any
-
+    environment {
+        DOCKER_IMAGE = "${userName}/${appName}-${namespace}:${version}"
+        DOCKER_URL = "https://hub.docker.com"
+        APP_NAME = "my-app"
+    }
     stages {
         stage('Build image') {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build("${userName}/${appName}-${namespace}:${version}", '--build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile .')
+                    "sh docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_IMAGE} --build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile ."
                 }
             }
         }
-        stage('Deploy') {
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    // Push the Docker image to Docker Hub
+                    docker.withRegistry(DOCKER_URL, credentials('docker-hubs')) {
+                        docker.image(DOCKER_IMAGE).push()
+                    }
+                }
+            }
+        }
+        stage('Create GKS deployment') {
             steps {
                 script {
                     // Run the Docker container
-                     sh 'kubectl apply -f deployment.yaml'
+                    "sh kubectl create deployment ${APP_NAME} --image=${DOCKER_IMAGE}"
+                }
+            }
+        }
+        stage('Expose GKS deployment') {
+            steps {
+                script {
+                    // Run the Docker container
+                   "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port=3000"
                 }
             }
         }

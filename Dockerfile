@@ -8,7 +8,6 @@ FROM node:14-alpine
 # Set the working directory in the container
 WORKDIR /app
 
-
 FROM princenoble/baseimage-${imageTag}:${imageVersion} AS base
 
 # Expose port 5000 to the outside world
