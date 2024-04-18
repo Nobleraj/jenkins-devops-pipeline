@@ -1,13 +1,15 @@
 def userName = 'princenoble'
 pipeline {
     agent any
-
+    environment {
+        DOCKER_IMAGE_NAME = "${userName}/baseimage-${imageTag}:${imageVersion}"
+    }
     stages {
         stage('Build base image') {
             steps {
                 script {
                     // Build the Docker image
-                   docker.build("${userName}/baseimage-${imageTag}:${imageVersion}", "-f BaseDockerfile .")
+                   "sh docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_IMAGE_NAME} -f BaseDockerfile ."
                 }
             }
         }

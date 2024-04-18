@@ -3,7 +3,7 @@ def appName = 'ui'
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = "${userName}/${appName}-${namespace}:${version}"
+        DOCKER_IMAGE_NAME = "${userName}/${appName}-${namespace}:${version}"
         DOCKER_URL = "https://hub.docker.com"
         APP_NAME = "my-app"
     }
@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    "sh docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_IMAGE} --build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile ."
+                    "sh docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_IMAGE_NAME} --build-arg imageTag=${imageTag} --build-arg imageVersion=${imageVersion} -f Dockerfile ."
                 }
             }
         }
@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Push the Docker image to Docker Hub
                     docker.withRegistry(DOCKER_URL, credentials('docker-hubs')) {
-                        docker.image(DOCKER_IMAGE).push()
+                        docker.image(DOCKER_IMAGE_NAME).push()
                     }
                 }
             }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    "sh kubectl create deployment ${APP_NAME} --image=${DOCKER_IMAGE}"
+                    "sh kubectl create deployment ${APP_NAME} --image=${DOCKER_IMAGE_NAME}"
                 }
             }
         }
