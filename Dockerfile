@@ -10,8 +10,6 @@ WORKDIR /app
 
 FROM princenoble/baseimage-${imageTag}:${imageVersion} AS base
 
-RUN npm run build
-
 # Expose port 5000 to the outside world
 EXPOSE 3000
 

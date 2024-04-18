@@ -11,3 +11,6 @@ COPY . .
 
 # Install dependencies
 RUN npm install
+
+# Copy the build folder to the working directory
+RUN rm -rf node_modules src public
