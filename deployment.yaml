@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp-react
+  name: my-react
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myapp-react
+      app: my-react
   template:
     metadata:
       labels:
-        app: myapp-react
+        app: my-react
     spec:
       containers:
       - name: myapp-container
@@ -22,10 +22,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: myapp-service
+  name: my-service
 spec:
   selector:
-    app: myapp-react
+    app: my-react
   ports:
     - protocol: TCP
       port: 80
