@@ -22,7 +22,9 @@ pipeline {
                     // Push the Docker image to Docker Hub
                     
                     docker.withRegistry('https://index.docker.io/v1/', 'princenoble') {
-                        docker.image(DOCKER_IMAGE_NAME).push()
+                          echo "Pushing Docker image ${DOCKER_IMAGE_NAME}"
+                          echo "Docker daemon version: ${docker.version()}"
+                          docker.image(DOCKER_IMAGE_NAME).push()
                     }
                 }
             }
