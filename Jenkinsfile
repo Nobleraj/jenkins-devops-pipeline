@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub
-                    docker.withRegistry(DOCKER_URL, 'princenoble') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'princenoble') {
                         docker.image(DOCKER_IMAGE_NAME).push()
                     }
                 }
