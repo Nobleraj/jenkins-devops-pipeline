@@ -20,11 +20,8 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub
-                    
-                    withDockerServer([credentialsId: 'princenoble']) {
-                        withDockerRegistry([url: DOCKER_URL, credentialsId: 'princenoble']) {
-                            sh "docker --log-level=debug push ${DOCKER_IMAGE_NAME}"
-                        }
+                    docker.withRegistry('https://index.docker.io/v1/', 'princenoble') {
+                        docker.image(DOCKER_IMAGE_NAME).push()
                     }
                 }
             }
