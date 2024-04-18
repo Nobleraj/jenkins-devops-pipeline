@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: my-react-app-container
-        image: "${DOCKER_IMAGE_NAME}"
+        image: "princenoble/ui-dev:1.0"
         ports:
         - containerPort: 3000
 
